@@ -1,6 +1,6 @@
 # Filament Cloud File Links
 
-A local Filament form field based on **KeyValue**. Stores an array of `link name => URL` for cloud storage file links.
+A Filament form field based on **KeyValue**. Stores an array of `link name => URL` for cloud storage file links.
 
 ## UI
 
@@ -15,11 +15,15 @@ Looks like KeyValue, but with:
 - PHP 8.2+
 - Filament Forms 5.x
 
-## Local setup (without Packagist)
+## Installation
 
-### Option A — path repository (recommended)
+```bash
+composer require alena009/filament-cloud-file-links
+```
 
-In your Laravel app's `composer.json`:
+The service provider is registered via Laravel package discovery.
+
+### Local path development (optional)
 
 ```json
 {
@@ -33,58 +37,14 @@ In your Laravel app's `composer.json`:
         }
     ],
     "require": {
-        "local/filament-cloud-file-links": "^2.0"
-    }
-}
-```
-
-Adjust the `url` path relative to your project root (e.g. `C:/work/filament-cloud-file-links`).
-
-Then:
-
-```bash
-composer update local/filament-cloud-file-links
-```
-
-The service provider is registered via Laravel package discovery.
-
-### Option B — PSR-4 only (no package `require`)
-
-In your app's `composer.json`:
-
-```json
-{
-    "autoload": {
-        "psr-4": {
-            "App\\": "app/",
-            "FilamentCloudFileLinks\\": "../filament-cloud-file-links/src/"
-        }
+        "alena009/filament-cloud-file-links": "^2.0"
     }
 }
 ```
 
 ```bash
-composer dump-autoload
+composer update alena009/filament-cloud-file-links
 ```
-
-Register the provider manually.
-
-**Laravel 11+** — in `bootstrap/providers.php`:
-
-```php
-return [
-    App\Providers\AppServiceProvider::class,
-    FilamentCloudFileLinks\CloudFileLinksServiceProvider::class,
-];
-```
-
-**Laravel 10** — in `config/app.php` → `providers`:
-
-```php
-FilamentCloudFileLinks\CloudFileLinksServiceProvider::class,
-```
-
-Views and translations live in the package; the provider is required to load them.
 
 ## Usage
 
@@ -129,3 +89,7 @@ CloudFileLinks::make('cloud_files')
     ->editableKeys()   // together with editableValues controls the Edit button
     ->editableValues();
 ```
+
+## License
+
+MIT

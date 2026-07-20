@@ -1,9 +1,27 @@
 {
-    "name": "local/filament-cloud-file-links",
+    "name": "alena009/filament-cloud-file-links",
     "description": "Filament form field for cloud file links (name + URL), KeyValue-compatible array storage",
     "type": "library",
-    "version": "2.0.0",
     "license": "MIT",
+    "keywords": [
+        "filament",
+        "laravel",
+        "forms",
+        "cloud",
+        "links",
+        "key-value"
+    ],
+    "authors": [
+        {
+            "name": "Alena009",
+            "email": "dashkoalena@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/Alena009/filament-cloud-file-links",
+    "support": {
+        "issues": "https://github.com/Alena009/filament-cloud-file-links/issues",
+        "source": "https://github.com/Alena009/filament-cloud-file-links"
+    },
     "require": {
         "php": "^8.2",
         "filament/forms": "^5.0"
@@ -20,5 +38,6 @@
             ]
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
