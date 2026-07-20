@@ -3,16 +3,20 @@
 namespace FilamentCloudFileLinks\Forms\Components;
 
 use Closure;
-use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\TextInput;
+use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentCloudFileLinks\Support\FilamentVersion;
 
-class CloudFileLinks extends KeyValue
+class CloudFileLinks extends Field
 {
+    use HasExtraAlpineAttributes;
     /**
      * @var view-string
      */
     protected string $view = 'filament-cloud-file-links::components.cloud-file-links';
+
+    protected string | Closure | null $addActionLabel = null;
 
     protected string | Closure | null $fileLabel = null;
 
@@ -28,13 +32,25 @@ class CloudFileLinks extends KeyValue
 
     protected string | Closure | null $urlFieldPlaceholder = null;
 
+    protected bool | Closure $isAddable = true;
+
+    protected bool | Closure $isDeletable = true;
+
+    protected bool | Closure $canEditKeys = true;
+
+    protected bool | Closure $canEditValues = true;
+
+    protected ?Closure $modifyAddActionUsing = null;
+
     protected ?Closure $modifyEditActionUsing = null;
+
+    protected ?Closure $modifyDeleteActionUsing = null;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->reorderable(false);
+        $this->default([]);
 
         $this->dehydrateStateUsing(static function (?array $state): array {
             return collect($state ?? [])
@@ -46,7 +62,9 @@ class CloudFileLinks extends KeyValue
         });
 
         $this->registerActions([
+            fn (CloudFileLinks $component) => $component->getAddAction(),
             fn (CloudFileLinks $component) => $component->getEditAction(),
+            fn (CloudFileLinks $component) => $component->getDeleteAction(),
         ]);
     }
 
@@ -70,7 +88,7 @@ class CloudFileLinks extends KeyValue
         ];
     }
 
-    public function getAddAction(): object
+    public function getAddAction(): mixed
     {
         $actionClass = FilamentVersion::actionClass();
 
@@ -97,7 +115,7 @@ class CloudFileLinks extends KeyValue
         return $action;
     }
 
-    public function getEditAction(): object
+    public function getEditAction(): mixed
     {
         $actionClass = FilamentVersion::actionClass();
 
@@ -148,7 +166,7 @@ class CloudFileLinks extends KeyValue
         return $action;
     }
 
-    public function getDeleteAction(): object
+    public function getDeleteAction(): mixed
     {
         $actionClass = FilamentVersion::actionClass();
 
@@ -180,14 +198,45 @@ class CloudFileLinks extends KeyValue
         return $action;
     }
 
+    public function getAddActionName(): string
+    {
+        return 'add';
+    }
+
     public function getEditActionName(): string
     {
         return 'edit';
     }
 
+    public function getDeleteActionName(): string
+    {
+        return 'delete';
+    }
+
+    public function addAction(?Closure $callback): static
+    {
+        $this->modifyAddActionUsing = $callback;
+
+        return $this;
+    }
+
     public function editAction(?Closure $callback): static
     {
         $this->modifyEditActionUsing = $callback;
+
+        return $this;
+    }
+
+    public function deleteAction(?Closure $callback): static
+    {
+        $this->modifyDeleteActionUsing = $callback;
+
+        return $this;
+    }
+
+    public function addActionLabel(string | Closure | null $label): static
+    {
+        $this->addActionLabel = $label;
 
         return $this;
     }
@@ -241,6 +290,65 @@ class CloudFileLinks extends KeyValue
         return $this;
     }
 
+    public function addable(bool | Closure $condition = true): static
+    {
+        $this->isAddable = $condition;
+
+        return $this;
+    }
+
+    public function deletable(bool | Closure $condition = true): static
+    {
+        $this->isDeletable = $condition;
+
+        return $this;
+    }
+
+    public function editableKeys(bool | Closure $condition = true): static
+    {
+        $this->canEditKeys = $condition;
+
+        return $this;
+    }
+
+    public function editableValues(bool | Closure $condition = true): static
+    {
+        $this->canEditValues = $condition;
+
+        return $this;
+    }
+
+    public function isAddable(): bool
+    {
+        return (bool) $this->evaluate($this->isAddable);
+    }
+
+    public function isDeletable(): bool
+    {
+        return (bool) $this->evaluate($this->isDeletable);
+    }
+
+    public function canEditKeys(): bool
+    {
+        return (bool) $this->evaluate($this->canEditKeys);
+    }
+
+    public function canEditValues(): bool
+    {
+        return (bool) $this->evaluate($this->canEditValues);
+    }
+
+    public function isEditable(): bool
+    {
+        return $this->canEditKeys() && $this->canEditValues();
+    }
+
+    public function getAddActionLabel(): string
+    {
+        return $this->evaluate($this->addActionLabel)
+            ?? __('filament-cloud-file-links::cloud-file-links.actions.add.label');
+    }
+
     public function getEditActionLabel(): string
     {
         return $this->evaluate($this->editActionLabel)
@@ -279,16 +387,5 @@ class CloudFileLinks extends KeyValue
     public function getUrlFieldPlaceholder(): ?string
     {
         return $this->evaluate($this->urlFieldPlaceholder);
-    }
-
-    public function isEditable(): bool
-    {
-        return $this->canEditKeys() && $this->canEditValues();
-    }
-
-    public function getAddActionLabel(): string
-    {
-        return $this->evaluate($this->addActionLabel)
-            ?? __('filament-cloud-file-links::cloud-file-links.actions.add.label');
     }
 }
