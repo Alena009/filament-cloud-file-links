@@ -6,6 +6,7 @@ use Closure;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
+use FilamentCloudFileLinks\Support\FileIcon;
 use FilamentCloudFileLinks\Support\FilamentVersion;
 
 class CloudFileLinks extends Field
@@ -453,6 +454,11 @@ class CloudFileLinks extends Field
     {
         return $this->evaluate($this->fileLabel)
             ?? __('filament-cloud-file-links::cloud-file-links.fields.file.label');
+    }
+
+    public function getFileIcon(string $name): string
+    {
+        return FileIcon::forName($name);
     }
 
     public function getEmptyLabel(): string

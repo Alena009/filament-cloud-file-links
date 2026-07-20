@@ -37,6 +37,20 @@
             min-width: 0;
             padding: 10px 12px 8px 10px;
             box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .fi-fo-cloud-file-links__file-icon {
+            flex: 0 0 auto;
+            width: 1rem;
+            height: 1rem;
+            color: rgb(107 114 128);
+        }
+
+        .dark .fi-fo-cloud-file-links__file-icon {
+            color: rgb(156 163 175);
         }
 
         .fi-fo-cloud-file-links__link a {
@@ -46,6 +60,7 @@
             color: var(--primary-600);
             text-decoration: underline;
             text-underline-offset: 2px;
+            overflow-wrap: anywhere;
         }
 
         .fi-fo-cloud-file-links__link a:hover {
@@ -148,6 +163,11 @@
                     wire:key="{{ $this->getId() }}.{{ $statePath }}.row.{{ md5((string) $name) }}"
                 >
                     <div class="fi-fo-cloud-file-links__link">
+                        <x-filament::icon
+                            :icon="$getFileIcon((string) $name)"
+                            class="fi-fo-cloud-file-links__file-icon"
+                        />
+
                         @if (filled($url))
                             <a
                                 href="{{ $url }}"
