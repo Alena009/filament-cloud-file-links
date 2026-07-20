@@ -28,5 +28,11 @@ return [
             'label' => 'Edit file link',
             'submit' => 'Save',
         ],
+        'delete' => [
+            'modal_heading' => 'Delete file link',
+            'modal_description' => 'Are you sure you want to delete this file link?',
+            'modal_submit' => 'Delete',
+            'modal_cancel' => 'Cancel',
+        ],
     ],
 ];

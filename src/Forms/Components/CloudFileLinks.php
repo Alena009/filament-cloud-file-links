@@ -40,6 +40,16 @@ class CloudFileLinks extends Field
 
     protected bool | Closure $canEditValues = true;
 
+    protected bool | Closure $deleteRequiresConfirmation = false;
+
+    protected string | Closure | null $deleteConfirmationModalHeading = null;
+
+    protected string | Closure | null $deleteConfirmationModalDescription = null;
+
+    protected string | Closure | null $deleteConfirmationModalSubmitActionLabel = null;
+
+    protected string | Closure | null $deleteConfirmationModalCancelActionLabel = null;
+
     protected ?Closure $modifyAddActionUsing = null;
 
     protected ?Closure $modifyEditActionUsing = null;
@@ -189,6 +199,26 @@ class CloudFileLinks extends Field
             })
             ->visible(fn (): bool => $this->isDeletable());
 
+        if ($this->isDeleteConfirmationRequired()) {
+            $action->requiresConfirmation();
+
+            if (filled($heading = $this->getDeleteConfirmationModalHeading())) {
+                $action->modalHeading($heading);
+            }
+
+            if (filled($description = $this->getDeleteConfirmationModalDescription())) {
+                $action->modalDescription($description);
+            }
+
+            if (filled($submitLabel = $this->getDeleteConfirmationModalSubmitActionLabel())) {
+                $action->modalSubmitActionLabel($submitLabel);
+            }
+
+            if (filled($cancelLabel = $this->getDeleteConfirmationModalCancelActionLabel())) {
+                $action->modalCancelActionLabel($cancelLabel);
+            }
+        }
+
         if ($this->modifyDeleteActionUsing) {
             $action = $this->evaluate($this->modifyDeleteActionUsing, [
                 'action' => $action,
@@ -304,6 +334,41 @@ class CloudFileLinks extends Field
         return $this;
     }
 
+    public function deleteRequiresConfirmation(bool | Closure $condition = true): static
+    {
+        $this->deleteRequiresConfirmation = $condition;
+
+        return $this;
+    }
+
+    public function deleteConfirmationModalHeading(string | Closure | null $heading): static
+    {
+        $this->deleteConfirmationModalHeading = $heading;
+
+        return $this;
+    }
+
+    public function deleteConfirmationModalDescription(string | Closure | null $description): static
+    {
+        $this->deleteConfirmationModalDescription = $description;
+
+        return $this;
+    }
+
+    public function deleteConfirmationModalSubmitActionLabel(string | Closure | null $label): static
+    {
+        $this->deleteConfirmationModalSubmitActionLabel = $label;
+
+        return $this;
+    }
+
+    public function deleteConfirmationModalCancelActionLabel(string | Closure | null $label): static
+    {
+        $this->deleteConfirmationModalCancelActionLabel = $label;
+
+        return $this;
+    }
+
     public function editableKeys(bool | Closure $condition = true): static
     {
         $this->canEditKeys = $condition;
@@ -326,6 +391,35 @@ class CloudFileLinks extends Field
     public function isDeletable(): bool
     {
         return (bool) $this->evaluate($this->isDeletable);
+    }
+
+    public function isDeleteConfirmationRequired(): bool
+    {
+        return (bool) $this->evaluate($this->deleteRequiresConfirmation);
+    }
+
+    public function getDeleteConfirmationModalHeading(): ?string
+    {
+        return $this->evaluate($this->deleteConfirmationModalHeading)
+            ?? __('filament-cloud-file-links::cloud-file-links.actions.delete.modal_heading');
+    }
+
+    public function getDeleteConfirmationModalDescription(): ?string
+    {
+        return $this->evaluate($this->deleteConfirmationModalDescription)
+            ?? __('filament-cloud-file-links::cloud-file-links.actions.delete.modal_description');
+    }
+
+    public function getDeleteConfirmationModalSubmitActionLabel(): ?string
+    {
+        return $this->evaluate($this->deleteConfirmationModalSubmitActionLabel)
+            ?? __('filament-cloud-file-links::cloud-file-links.actions.delete.modal_submit');
+    }
+
+    public function getDeleteConfirmationModalCancelActionLabel(): ?string
+    {
+        return $this->evaluate($this->deleteConfirmationModalCancelActionLabel)
+            ?? __('filament-cloud-file-links::cloud-file-links.actions.delete.modal_cancel');
     }
 
     public function canEditKeys(): bool

@@ -86,6 +86,11 @@ CloudFileLinks::make('cloud_files')
     ->editActionLabel('Edit document')
     ->addable()
     ->deletable()
+    ->deleteRequiresConfirmation()
+    ->deleteConfirmationModalHeading('Delete document')
+    ->deleteConfirmationModalDescription('This cannot be undone.')
+    ->deleteConfirmationModalSubmitActionLabel('Yes, delete')
+    ->deleteConfirmationModalCancelActionLabel('Cancel')
     ->editableKeys()   // together with editableValues controls the Edit button
     ->editableValues();
 ```
