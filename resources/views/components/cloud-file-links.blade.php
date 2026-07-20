@@ -61,11 +61,21 @@
             font-size: 0.875rem;
             line-height: 1.25rem;
             font-weight: 500;
-            text-decoration: none;
+            color: var(--primary-600);
+            text-decoration: underline;
+            text-underline-offset: 2px;
         }
 
         .fi-fo-cloud-file-links__link a:hover {
-            text-decoration: underline;
+            color: var(--primary-500);
+        }
+
+        .dark .fi-fo-cloud-file-links__link a {
+            color: var(--primary-400);
+        }
+
+        .dark .fi-fo-cloud-file-links__link a:hover {
+            color: var(--primary-300);
         }
 
         .fi-fo-cloud-file-links__link-empty {
