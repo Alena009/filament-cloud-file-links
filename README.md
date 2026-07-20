@@ -1,25 +1,25 @@
 # Filament Cloud File Links
 
-Локальный Filament-компонент формы на базе **KeyValue**: хранит массив `имя ссылки => URL` в облачном хранилище.
+A local Filament form field based on **KeyValue**. Stores an array of `link name => URL` for cloud storage file links.
 
-## Как выглядит
+## UI
 
-Таблица как у KeyValue, но с тремя колонками:
+Looks like KeyValue, but with:
 
-1. **Файл / Ссылка** — кликабельное имя, открывает скрытый URL
-2. **Edit** — модалка с той же формой, что и при добавлении
-3. **Delete** — удаление записи
+1. **File / Link** — clickable name that opens the hidden URL
+2. **Edit** — modal with the same form as when adding
+3. **Delete** — removes the row
 
-## Требования
+## Requirements
 
 - PHP 8.2+
 - Filament Forms 5.x
 
-## Подключение без Packagist (локально)
+## Local setup (without Packagist)
 
-### Вариант A — path-репозиторий (рекомендуется)
+### Option A — path repository (recommended)
 
-В `composer.json` вашего Laravel-проекта:
+In your Laravel app's `composer.json`:
 
 ```json
 {
@@ -38,19 +38,19 @@
 }
 ```
 
-Путь `url` поправьте относительно корня проекта (например `C:/work/filament-cloud-file-links`).
+Adjust the `url` path relative to your project root (e.g. `C:/work/filament-cloud-file-links`).
 
-Затем:
+Then:
 
 ```bash
 composer update local/filament-cloud-file-links
 ```
 
-Service Provider подхватится через Laravel package discovery.
+The service provider is registered via Laravel package discovery.
 
-### Вариант B — только PSR-4 (без `require` пакета)
+### Option B — PSR-4 only (no package `require`)
 
-В `composer.json` приложения:
+In your app's `composer.json`:
 
 ```json
 {
@@ -67,9 +67,9 @@ Service Provider подхватится через Laravel package discovery.
 composer dump-autoload
 ```
 
-Зарегистрируйте провайдер вручную.
+Register the provider manually.
 
-**Laravel 11+** — в `bootstrap/providers.php`:
+**Laravel 11+** — in `bootstrap/providers.php`:
 
 ```php
 return [
@@ -78,24 +78,24 @@ return [
 ];
 ```
 
-**Laravel 10** — в `config/app.php` → `providers`:
+**Laravel 10** — in `config/app.php` → `providers`:
 
 ```php
 FilamentCloudFileLinks\CloudFileLinksServiceProvider::class,
 ```
 
-Views и переводы лежат в пакете; без провайдера они не подключатся — провайдер обязателен.
+Views and translations live in the package; the provider is required to load them.
 
-## Использование
+## Usage
 
 ```php
 use FilamentCloudFileLinks\Forms\Components\CloudFileLinks;
 
 CloudFileLinks::make('cloud_files')
-    ->label('Файлы в облаке')
+    ->label('Cloud files')
 ```
 
-В модели поле должно кастоваться в `array` (как у KeyValue):
+Cast the model attribute to `array` (same as KeyValue):
 
 ```php
 protected $casts = [
@@ -103,29 +103,29 @@ protected $casts = [
 ];
 ```
 
-Сохранённое значение:
+Stored value shape:
 
 ```php
 [
-    'Договор.pdf' => 'https://storage.example.com/files/abc123',
-    'Скан паспорта' => 'https://storage.example.com/files/def456',
+    'Contract.pdf' => 'https://storage.example.com/files/abc123',
+    'Passport scan' => 'https://storage.example.com/files/def456',
 ]
 ```
 
-## Кастомизация
+## Customization
 
 ```php
 CloudFileLinks::make('cloud_files')
-    ->fileLabel('Документы')
-    ->emptyLabel('Пока нет документов')
-    ->nameFieldLabel('Название')
-    ->urlFieldLabel('Ссылка')
-    ->nameFieldPlaceholder('Например, Акт выполненных работ')
+    ->fileLabel('Documents')
+    ->emptyLabel('No documents yet')
+    ->nameFieldLabel('Name')
+    ->urlFieldLabel('URL')
+    ->nameFieldPlaceholder('e.g. Certificate of completion')
     ->urlFieldPlaceholder('https://...')
-    ->addActionLabel('Добавить документ')
-    ->editActionLabel('Изменить документ')
+    ->addActionLabel('Add document')
+    ->editActionLabel('Edit document')
     ->addable()
     ->deletable()
-    ->editableKeys()   // вместе с editableValues управляет кнопкой Edit
+    ->editableKeys()   // together with editableValues controls the Edit button
     ->editableValues();
 ```
