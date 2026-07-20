@@ -117,6 +117,7 @@ protected $casts = [
 ```php
 CloudFileLinks::make('cloud_files')
     ->fileLabel('Документы')
+    ->emptyLabel('Пока нет документов')
     ->nameFieldLabel('Название')
     ->urlFieldLabel('Ссылка')
     ->nameFieldPlaceholder('Например, Акт выполненных работ')

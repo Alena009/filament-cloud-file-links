@@ -177,7 +177,7 @@
                 </div>
             @empty
                 <div class="fi-fo-cloud-file-links__empty">
-                    {{ __('filament-cloud-file-links::cloud-file-links.empty') }}
+                    {{ $getEmptyLabel() }}
                 </div>
             @endforelse
 

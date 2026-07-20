@@ -18,6 +18,8 @@ class CloudFileLinks extends KeyValue
 
     protected string | Closure | null $fileLabel = null;
 
+    protected string | Closure | null $emptyLabel = null;
+
     protected string | Closure | null $editActionLabel = null;
 
     protected string | Closure | null $nameFieldLabel = null;
@@ -200,6 +202,13 @@ class CloudFileLinks extends KeyValue
         return $this;
     }
 
+    public function emptyLabel(string | Closure | null $label): static
+    {
+        $this->emptyLabel = $label;
+
+        return $this;
+    }
+
     public function nameFieldLabel(string | Closure | null $label): static
     {
         $this->nameFieldLabel = $label;
@@ -238,6 +247,12 @@ class CloudFileLinks extends KeyValue
     {
         return $this->evaluate($this->fileLabel)
             ?? __('filament-cloud-file-links::cloud-file-links.fields.file.label');
+    }
+
+    public function getEmptyLabel(): string
+    {
+        return $this->evaluate($this->emptyLabel)
+            ?? __('filament-cloud-file-links::cloud-file-links.empty');
     }
 
     public function getNameFieldLabel(): string
