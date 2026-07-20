@@ -1,5 +1,5 @@
 {
-    "name": "alena009/filament-cloud-file-links",
+    "name": "alenadashko/filament-cloud-file-links",
     "description": "Filament form field for cloud file links (name + URL), KeyValue-compatible array storage",
     "type": "library",
     "license": "MIT",
