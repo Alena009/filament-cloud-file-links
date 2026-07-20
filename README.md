@@ -18,7 +18,7 @@ Looks like KeyValue, but with:
 ## Installation
 
 ```bash
-composer require alena009/filament-cloud-file-links
+composer require alenadashko/filament-cloud-file-links
 ```
 
 The service provider is registered via Laravel package discovery.
@@ -37,13 +37,13 @@ The service provider is registered via Laravel package discovery.
         }
     ],
     "require": {
-        "alena009/filament-cloud-file-links": "^2.0"
+        "alenadashko/filament-cloud-file-links": "^2.0"
     }
 }
 ```
 
 ```bash
-composer update alena009/filament-cloud-file-links
+composer update alenadashko/filament-cloud-file-links
 ```
 
 ## Usage
