@@ -81,7 +81,7 @@
             flex-wrap: nowrap;
             align-items: center;
             justify-content: flex-end;
-            gap: 0.25rem;
+            gap: 0.55rem;
             padding: 10px 8px 8px;
             margin-inline-start: auto;
             box-sizing: border-box;
