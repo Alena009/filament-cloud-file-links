@@ -23,30 +23,12 @@
             width: 100%;
         }
 
-        .fi-fo-cloud-file-links__header,
         .fi-fo-cloud-file-links__row {
             display: flex;
             flex-direction: row;
             align-items: center;
             width: 100%;
             box-sizing: border-box;
-        }
-
-        .fi-fo-cloud-file-links__header {
-            border-bottom: 1px solid rgb(229 231 235);
-            padding: 0.5rem 0.75rem;
-        }
-
-        .fi-fo-cloud-file-links__header-label {
-            flex: 1 1 auto;
-            min-width: 0;
-            font-size: 0.875rem;
-            line-height: 1.25rem;
-            font-weight: 500;
-            color: rgb(55 65 81);
-        }
-
-        .fi-fo-cloud-file-links__row {
             border-bottom: 1px solid rgb(229 231 235);
         }
 
@@ -113,13 +95,8 @@
             padding: 0.5rem 0.75rem;
         }
 
-        .dark .fi-fo-cloud-file-links__header,
         .dark .fi-fo-cloud-file-links__row {
             border-color: rgb(255 255 255 / 0.1);
-        }
-
-        .dark .fi-fo-cloud-file-links__header-label {
-            color: rgb(229 231 235);
         }
 
         .dark .fi-fo-cloud-file-links__link-empty,
@@ -165,12 +142,6 @@
                 ])), 0, 64)
             }}"
         >
-            <div class="fi-fo-cloud-file-links__header">
-                <div class="fi-fo-cloud-file-links__header-label">
-                    {{ $getFileLabel() }}
-                </div>
-            </div>
-
             @forelse ($rows as $name => $url)
                 <div
                     class="fi-fo-cloud-file-links__row"
