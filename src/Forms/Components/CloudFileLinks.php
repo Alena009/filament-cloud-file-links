@@ -3,11 +3,9 @@
 namespace FilamentCloudFileLinks\Forms\Components;
 
 use Closure;
-use Filament\Actions\Action;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\TextInput;
-use Filament\Support\Enums\Size;
-use Filament\Support\Icons\Heroicon;
+use FilamentCloudFileLinks\Support\FilamentVersion;
 
 class CloudFileLinks extends KeyValue
 {
@@ -48,7 +46,7 @@ class CloudFileLinks extends KeyValue
         });
 
         $this->registerActions([
-            fn (CloudFileLinks $component): Action => $component->getEditAction(),
+            fn (CloudFileLinks $component) => $component->getEditAction(),
         ]);
     }
 
@@ -72,13 +70,15 @@ class CloudFileLinks extends KeyValue
         ];
     }
 
-    public function getAddAction(): Action
+    public function getAddAction(): object
     {
-        $action = Action::make($this->getAddActionName())
+        $actionClass = FilamentVersion::actionClass();
+
+        $action = $actionClass::make($this->getAddActionName())
             ->label(fn (CloudFileLinks $component): string => $component->getAddActionLabel())
             ->color('gray')
             ->link()
-            ->schema(fn (CloudFileLinks $component): array => $component->getLinkFormSchema())
+            ->form(fn (CloudFileLinks $component): array => $component->getLinkFormSchema())
             ->modalHeading(fn (CloudFileLinks $component): string => $component->getAddActionLabel())
             ->modalSubmitActionLabel(__('filament-cloud-file-links::cloud-file-links.actions.add.submit'))
             ->action(function (array $data, CloudFileLinks $component): void {
@@ -97,15 +97,17 @@ class CloudFileLinks extends KeyValue
         return $action;
     }
 
-    public function getEditAction(): Action
+    public function getEditAction(): object
     {
-        $action = Action::make($this->getEditActionName())
+        $actionClass = FilamentVersion::actionClass();
+
+        $action = $actionClass::make($this->getEditActionName())
             ->label(fn (CloudFileLinks $component): string => $component->getEditActionLabel())
-            ->icon(Heroicon::PencilSquare)
+            ->icon('heroicon-m-pencil-square')
             ->color('gray')
             ->iconButton()
-            ->size(Size::Small)
-            ->schema(fn (CloudFileLinks $component): array => $component->getLinkFormSchema())
+            ->size(FilamentVersion::smallSize())
+            ->form(fn (CloudFileLinks $component): array => $component->getLinkFormSchema())
             ->fillForm(function (array $arguments, CloudFileLinks $component): array {
                 $key = $arguments['key'] ?? null;
                 $state = $component->getState() ?? [];
@@ -146,14 +148,16 @@ class CloudFileLinks extends KeyValue
         return $action;
     }
 
-    public function getDeleteAction(): Action
+    public function getDeleteAction(): object
     {
-        $action = Action::make($this->getDeleteActionName())
+        $actionClass = FilamentVersion::actionClass();
+
+        $action = $actionClass::make($this->getDeleteActionName())
             ->label(__('filament-forms::components.key_value.actions.delete.label'))
-            ->icon(Heroicon::Trash)
+            ->icon('heroicon-m-trash')
             ->color('danger')
             ->iconButton()
-            ->size(Size::Small)
+            ->size(FilamentVersion::smallSize())
             ->action(function (array $arguments, CloudFileLinks $component): void {
                 $key = $arguments['key'] ?? null;
 

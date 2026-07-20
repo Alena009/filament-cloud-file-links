@@ -166,11 +166,11 @@
                     @if ($showActions)
                         <div class="fi-fo-cloud-file-links__actions">
                             @if ($isEditable && $editAction)
-                                {{ $editAction(['key' => $name]) }}
+                                {{ \FilamentCloudFileLinks\Support\FilamentVersion::actionWithArguments($editAction, ['key' => $name]) }}
                             @endif
 
                             @if ($isDeletable && $deleteAction)
-                                {{ $deleteAction(['key' => $name]) }}
+                                {{ \FilamentCloudFileLinks\Support\FilamentVersion::actionWithArguments($deleteAction, ['key' => $name]) }}
                             @endif
                         </div>
                     @endif

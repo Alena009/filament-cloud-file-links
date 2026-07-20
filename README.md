@@ -12,8 +12,8 @@ Looks like KeyValue, but with:
 
 ## Requirements
 
-- PHP 8.2+
-- Filament Forms 5.x
+- PHP 8.1+
+- Filament Forms 3.x, 4.x, or 5.x
 
 ## Installation
 
